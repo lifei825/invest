@@ -1,0 +1,12 @@
+var subStr = function (val, start, stop) {
+  console.log('wxsssss', val)
+  if (val) {
+    return val.substring(start, stop)
+  } else {
+    return ''
+  }
+}
+
+module.exports = {
+  subStr: subStr
+}

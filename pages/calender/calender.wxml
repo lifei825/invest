@@ -1,0 +1,92 @@
+<!--pages/calender/calender.wxml-->
+<wxs src="../../utils/tools.wxs" module="tools" />
+
+<scroll-view style="background: #ececec;heigth: 1200px" scroll-y="true">
+
+<van-nav-bar
+  bind:click-left="onClickLeft"
+  bind:click-right="onClickRight"
+  custom-style="padding-top: 0"
+  safe-area-inset-top="{{false}}"
+  fixed="{{true}}"
+  placeholder="{{true}}"
+>
+<view slot='title' style="color: #333;font-weight: blod;font-family: FangSong;" bindtap="tap">
+    {{title}}
+</view>
+<iconfont name="left" slot="left"/>
+<iconfont name="right" slot="right"/>
+</van-nav-bar>
+
+<van-calendar
+  poppable="{{ false }}"
+  show-confirm="{{ false }}"
+  show-subtitle="{{ true }}"
+  show-title="{{ false }}"
+  class="calendar"
+  min-date="{{ minDate }}" 
+  max-date="{{ maxDate }}"
+  default-date="{{ defaultDate }}"
+  row-height="56"
+  formatter="{{ formatter }}"
+  bind:select='selectDate'
+  color="#6699cc"
+>
+</van-calendar>
+
+<view id="rd" class="page__bd" style="border:0rpx solid #fff;border-radius:25rpx;margin: 15rpx">
+        <view class="weui-panel weui-panel_access" style="border-radius:25rpx">
+            <view class="weui-panel__hd" style="color:#061C43;font-size: 18;font: bold;font-family: FangSong;">
+                <!-- {{tools.subStr(title, 5, 6)+'月要点'}} -->
+                {{lastDay.month}}月要点
+            </view>
+            <scroll-view class="weui-panel__bd" style="height: {{ydHeight}}"
+               scroll-y="true"  scroll-into-view="{{toView}}"
+            >
+                <navigator wx:for="{{4}}" id="item{{item+1}}" wx:key="item" url="" class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active">
+                    <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
+                        <view class="weui-media-box__thumb day" style="background: #072142">{{item+1}}日</view>
+                    </view>
+                    <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
+                        <!-- <view class="weui-media-box__title">中财新PMI\n美1月ADP啊啊啊啊啊啊啊啊啊啊啊啊啊啊</view> -->
+                        <view style="font-size: 14px;color: #06141d;font-family: Arial,sans-serif;">
+                            <text>● 中国1月财新PMI, 美国1月ADP就业人数djhadkjadhakjd\n</text>
+                            <text>● 中国1月财新PMI, 美国1月ADP就业人数\n</text>
+                            <text>● 中国1月财新PMI, 美国1月ADP就业人数\n</text>
+                            <text>● dadl;akda;ldl;akndm\n</text>
+                            <text>● 22adada</text>
+                        </view>
+                    </view>
+                </navigator>
+            </scroll-view>
+            <view class="weui-panel__ft" wx:if='{{2>10}}'>
+                <view class="weui-cell weui-cell_access weui-cell_link" bindtap="zkyd">
+                    <view class="weui-cell__bd">{{ydHeight === '800rpx' ? '展开' : '收起'}}</view>
+                    <view class="weui-cell__ft weui-cell__ft_in-access"></view>
+                </view>
+            </view>
+        </view>
+        <!-- <view class="weui-panel weui-panel_access">
+            <view class="weui-panel__hd">文字组合列表</view>
+        </view> -->
+</view>
+
+</scroll-view>
+
+<!-- <van-button round type="primary" bindtap="tap"  color='#CC0033' style="top: 280rpx;position:fixed;z-index:9999">今</van-button> -->
+<movable-area class='suspension' style="bottom: {{xfBottom}}px">
+    <movable-view id="suspension" direction="all" x="{{x}}" y="{{y}}" animation="{{false}}" style="pointer-events: auto;">
+        <van-button round type="primary" bindtap="openAdd" color='#990066'>＋</van-button>
+        <view style="height:10px"></view>
+        <van-button round type="primary" bindtap="tap" color='#CC0033'>今</van-button>
+    </movable-view>
+</movable-area>
+
+
+<van-share-sheet
+  id="sheet"
+  show="{{ showAdd }}"
+  title="立即分享给好友"
+  options="{{ optionAdd }}"
+  bind:close="closeAdd"
+/>

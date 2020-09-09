@@ -1,0 +1,12 @@
+{
+  "usingComponents": {
+    "van-button": "../../weapp/button/index",
+    "van-calendar": "../../weapp/calendar/index",
+    "van-nav-bar": "../../weapp/nav-bar/index",
+    "van-icon": "../../weapp/icon/index",
+    "van-cell": "../../weapp/cell/index",
+    "van-cell-group": "../../weapp/cell-group/index",
+    "van-share-sheet": "../../weapp/share-sheet/index",
+    "mp-dialog": "../../weui-miniprogram/dialog/dialog"
+  }
+}

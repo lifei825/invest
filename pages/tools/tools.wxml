@@ -1,0 +1,16 @@
+<!--pages/tools/tools.wxml-->
+
+<!-- <block>
+  <navigator url="../../page-a/logs/logs" class="navigator">
+    <view class="navigator-text">test</view>
+    <view class="navigator-arrow"></view>
+  </navigator>
+</block> -->
+
+<van-grid column-num="3">
+  <van-grid-item icon="photo-o" text="复利收益" />
+  <van-grid-item icon="photo-o" text="股票成本" />
+  <van-grid-item icon="photo-o" text="股票手续费" />
+  <van-grid-item icon="photo-o" text="我的基金" />
+  <van-grid-item icon="photo-o" text="文字" />
+</van-grid>

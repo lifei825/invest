@@ -1,0 +1,48 @@
+{
+  "pages": [
+    "pages/calender/calender",
+    "pages/index/index",
+    "pages/tools/tools"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#f8f8f8",
+    "navigationBarTitleText": "飞飞投资日历",
+    "navigationBarTextStyle": "black"
+  },
+  "sitemapLocation": "sitemap.json",
+  "usingComponents": {
+    "van-icon": "weapp/icon/index",
+    "iconfont": "/iconfont/iconfont"
+  },
+  "subPackages": [
+    {
+      "root": "page-a/logs",
+      "pages": [
+        "logs"
+      ]
+    }
+  ],
+  "tabBar": {
+    "list": [
+      {
+        "pagePath": "pages/calender/calender",
+        "text": "日历",
+        "iconPath": "image/calendar.png",
+        "selectedIconPath": "image/calendar-select.png"
+      },
+      {
+        "pagePath": "pages/tools/tools",
+        "text": "小工具",
+        "iconPath": "image/all.png",
+        "selectedIconPath": "image/all-select.png"
+      },
+      {
+        "pagePath": "pages/index/index",
+        "text": "我的",
+        "iconPath": "image/usercenter.png",
+        "selectedIconPath": "image/usercenter-select.png"
+      }
+    ]
+  }
+}

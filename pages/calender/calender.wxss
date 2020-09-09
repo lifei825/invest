@@ -1,0 +1,49 @@
+/* pages/calender/calender.wxss */
+.calendar { 
+  /* --calendar-height: 500px; */
+  color: #66CCFF;
+}
+
+
+.calendar_title{width: 90%; margin: 10rpx auto; justify-content: space-between;font-size: 14pt;}
+.calendar_title .icon image{width: 60rpx; height: 50rpx;margin: 0rpx auto;}
+
+
+.van-calendar__header-subtitle {
+  display: none;
+}
+
+.van-calendar__top-info {
+  top: 6px;
+  color: #FF9999;
+}
+
+.van-calendar__bottom-info {
+  color: #003399;
+  /* margin-top: 15rpx; */
+  /* color: hsl(340, 72%, 52%); */
+}
+
+.van-calendar__day {
+  height: 82px !important;
+}
+
+.van-calendar__selected-day {
+  height: var(--calendar-selected-day-size,80px) !important;
+}
+
+.suspension {
+  pointer-events: none;
+  z-index: 100000;
+  position:fixed;
+  /* bottom: 126px; */
+  right: 80rpx;
+  height: 96%;
+  width: 96%;
+}
+
+.day {
+  font-weight: bold;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  color: #e6c2a2;
+}

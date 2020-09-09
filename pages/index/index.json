@@ -1,0 +1,5 @@
+{
+  "usingComponents": {
+    "van-button": "../../weapp/button/index"
+  }
+}
