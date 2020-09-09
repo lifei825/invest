@@ -1,4 +1,5 @@
 var app = getApp();
+var v = 'v1125'
 // pages/calender/calender.js
 Page({
 
@@ -6,7 +7,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    dateData: [{month: 9, day: 24, topInfo: "test", bottomInfo: "nonono"}],
+    dateData: [],
     xfBottom: 0,
     optionAdd: [{ name: '微信', icon: 'wechat' }],
     showAdd: false,
@@ -34,12 +35,12 @@ Page({
 
       
       // 从云数据库获取选择月日历数据
-      let k = `${year}-${month}-v2`
+      let k = `${year}-${month}-${v}`
       let data
       try{
         data = wx.getStorageSync(k)
         // console.log('get count')
-        if(!data){
+        if(!data || typeof data === 'string'){
           throw "data为空"
         }
       }catch(err){
@@ -57,7 +58,7 @@ Page({
             news: true,
             year: true,
           })
-          .orderBy('day', 'desc')
+          .orderBy('day', 'asc')
           .skip(0).limit(10)
           .get({
             success: function(res) {
@@ -108,6 +109,9 @@ Page({
         });
       }
     })
+
+    // 从云数据库获取选择月日历数据
+    this.getDateData(year, month)
   },
 
   /**
@@ -183,6 +187,7 @@ Page({
     this.setData({title: `${year}年${month-1}月`})
     this.setData({lastDay: {year: year, month: month-1}})
     console.log('left', this.data.lastDay)
+    this.getDateData(year, month)
   },
   selectDate: function (v) {
     let d = 'item'+v.detail.getDate()
@@ -233,4 +238,38 @@ Page({
   setTouchMove: function(e){
     console.log('setTouchMove', e)
   },
+
+  getDateData: function(year, month){
+    // 从云数据库获取选择月日历数据
+    let k = `${year}-${month+1}-${v}`
+    let data
+    try{
+      data = wx.getStorageSync(k)
+      console.log("data ssss", typeof data, data.length, data)
+      if(!data || typeof data === 'string'){
+        console.log("aaaaa")
+        throw "data为空"
+      }
+    }catch(err){
+      console.log("errpr", err)
+      const db = wx.cloud.database()
+      db.collection('calendar')
+        .where({year: year, month: month+1})
+        .field({day: true, news: true})
+        .orderBy('day', 'asc').skip(0).limit(100)
+        .get({
+          success: function(res) {
+            data = res.data
+            console.log("ssss1111", data)
+            wx.setStorage({
+              data: res.data,
+              key: k
+            }) 
+          }
+        })
+    }finally{
+      console.log("onloda llll", data)
+      this.setData({dateData: data, ydHeight: data.length > 4 ? '800px' : '100%'})
+    }
+  }
 })

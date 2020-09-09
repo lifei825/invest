@@ -40,21 +40,17 @@
                 <!-- {{tools.subStr(title, 5, 6)+'月要点'}} -->
                 {{lastDay.month}}月要点
             </view>
-            <scroll-view class="weui-panel__bd" style="height: {{ydHeight}}"
-               scroll-y="true"  scroll-into-view="{{toView}}"
-            >
-                <navigator wx:for="{{4}}" id="item{{item+1}}" wx:key="item" url="" class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active">
+            <scroll-view class="weui-panel__bd" style="height: {{ydHeight}}" scroll-y="true"  scroll-into-view="{{toView}}">
+                <navigator wx:for="{{dateData}}" id="item{{item.day+1}}" wx:key="index" url="" class="weui-media-box weui-media-box_appmsg" hover-class="weui-cell_active">
                     <view class="weui-media-box__hd weui-media-box__hd_in-appmsg">
-                        <view class="weui-media-box__thumb day" style="background: #072142">{{item+1}}日</view>
+                        <view class="weui-media-box__thumb day" style="background: #072142">{{item.day}}日</view>
                     </view>
                     <view class="weui-media-box__bd weui-media-box__bd_in-appmsg">
                         <!-- <view class="weui-media-box__title">中财新PMI\n美1月ADP啊啊啊啊啊啊啊啊啊啊啊啊啊啊</view> -->
                         <view style="font-size: 14px;color: #06141d;font-family: Arial,sans-serif;">
-                            <text>● 中国1月财新PMI, 美国1月ADP就业人数djhadkjadhakjd\n</text>
-                            <text>● 中国1月财新PMI, 美国1月ADP就业人数\n</text>
-                            <text>● 中国1月财新PMI, 美国1月ADP就业人数\n</text>
-                            <text>● dadl;akda;ldl;akndm\n</text>
-                            <text>● 22adada</text>
+                            <block wx:for="{{item.news}}" wx:for-item="new" wx:key="index">
+                                <text>● {{new.desc}}\n</text>
+                            </block>
                         </view>
                     </view>
                 </navigator>
