@@ -1,5 +1,7 @@
 {
   "usingComponents": {
+    "van-toast": "../../weapp/toast/index",
+    "van-empty": "../../weapp/empty/index",
     "van-button": "../../weapp/button/index",
     "van-calendar": "../../weapp/calendar/index",
     "van-nav-bar": "../../weapp/nav-bar/index",

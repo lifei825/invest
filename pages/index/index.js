@@ -4,7 +4,7 @@ const app = getApp()
 
 Page({
   data: {
-    motto: 'Hi! Hello World',
+    motto: 'Hi! ',
     userInfo: {},
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo')
@@ -58,5 +58,9 @@ Page({
       userInfo: e.detail.userInfo,
       hasUserInfo: true
     })
+  },
+  clearCache: function() {
+    console.log("userinfo", this.data.userInfo)
+    wx.clearStorage()
   }
 })

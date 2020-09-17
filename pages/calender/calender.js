@@ -1,5 +1,15 @@
-var app = getApp();
-var v = 'v1125'
+import Toast from '../../weapp/toast/toast';
+const { getDateData } = require('../../utils/util.js');
+// var app = getApp();
+
+
+let date = new Date()
+let year = date.getFullYear()
+let month = date.getMonth()
+var minDate = new Date(year, month, 15).getTime()
+var maxDate = new Date(year, month+1, 0).getTime()
+var v = `${date.getDate}-${date.getHours}`
+
 // pages/calender/calender.js
 Page({
 
@@ -9,7 +19,8 @@ Page({
   data: {
     dateData: [],
     xfBottom: 0,
-    optionAdd: [{ name: '微信', icon: 'wechat' }],
+    optionAdd: [{ name: '分享好友', icon: 'wechat' }, 
+                { name: '日记', icon: '/image/note.png' },],
     showAdd: false,
     ydHeight: '800rpx',
     x: 250,
@@ -17,9 +28,8 @@ Page({
     rdScrollTop: 0,
     aa: true,
     toView: 'demo1',
-    // minDate: new Date(2010, 0, 1).getTime(),
-    maxDate: new Date().getTime(),
-    minDate: new Date().getTime(),
+    minDate: minDate,
+    maxDate: maxDate,
     defaultDate: new Date().getTime(),
     title: "2010年1月",
     today: 1,
@@ -32,62 +42,37 @@ Page({
       const month = day.date.getMonth() + 1;
       const date = day.date.getDate();
       const year = day.date.getFullYear()
-
       
-      // 从云数据库获取选择月日历数据
       let k = `${year}-${month}-${v}`
-      let data
-      try{
-        data = wx.getStorageSync(k)
-        // console.log('get count')
-        if(!data || typeof data === 'string'){
-          throw "data为空"
-        }
-      }catch(err){
-        const db = wx.cloud.database()
-        db.collection('calendar')
-          .where({
-            year: year,
-            month: month
-          })
-          .field({
-            day: true,
-            topInfo: true,
-            bottomInfo: true,
-            month: true,
-            news: true,
-            year: true,
-          })
-          .orderBy('day', 'asc')
-          .skip(0).limit(10)
-          .get({
-            success: function(res) {
-              data = res.data
-              wx.setStorage({
-                data: res.data,
-                key: k
-              }) 
-            }
-          })
-      }finally{
-        if(data){
-          data.map(v => {
-            if (v.month === month && v.year === year) {
-              if (date === v.day) {
+      let data = wx.getStorageSync(k)
+      if(!data || typeof data === 'string'){
+        // console.log("data为空")
+        return day
+      } else {
+        // console.log("formdata data")
+        data.map(v => {
+          if (v.month === month && v.year === year) {
+            if (date === v.day) {
+              if(v.topInfo){
                 day.topInfo = `●${v.topInfo}`;
-                day.bottomInfo = v.bottomInfo
-              } 
-              if (date === today && thisMonth === month) {
-                day.text = '今天';
               }
+              day.bottomInfo = v.bottomInfo
+            } 
+            if (date === today && thisMonth === month) {
+              day.text = '今天';
             }
-          })
-        }
+          }
+        })
       }
       return day
     }
   },
 
+  watch: {
+    dateData: function(newValue){
+      console.log("new value", newValue)
+    }
+  },
   /**
    * 生命周期函数--监听页面加载
    */
@@ -95,7 +80,7 @@ Page({
     let date = new Date()
     let year = date.getFullYear()
     let month = date.getMonth()
-    this.setData({minDate: new Date(year, month, 1).getTime(), maxDate: new Date(year, month+1, 0).getTime()})
+    
     this.setData({title: `${year}年${month+1}月`})
     this.setData({lastDay: {year: year, month: month+1}})
 
@@ -109,9 +94,15 @@ Page({
         });
       }
     })
-
     // 从云数据库获取选择月日历数据
-    this.getDateData(year, month)
+    let that = this
+    getDateData(year, month, v).then(function(res){
+      let dateData = res || []
+      that.setData({dateData: dateData})
+      that.setData({minDate: new Date(year, month, 1).getTime(), maxDate: new Date(year, month+1, 0).getTime()})
+      that.setData({ydHeight: dateData.length > 4 ? '800rpx' : '100%'})
+    })
+    
   },
 
   /**
@@ -132,7 +123,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    console.log("on show", date)
   },
 
   /**
@@ -171,35 +162,63 @@ Page({
   },
 
   onClickRight: function () {
-    console.log('feifei right', app.globalData.userInfo)
+    // 2020 12 1 ---> 2021 1 1 00
+    let limitDate = new Date(2020, 12, 1).getTime()
     let year = this.data.lastDay.year
     let month = this.data.lastDay.month
-    // this.setData({maxDate: new Date(year, month+1, 0).getTime()})
-    this.setData({minDate: new Date(year, month, 1).getTime(), maxDate: new Date(year, month+1, 0).getTime()})
+    if(new Date(year, month+1, 0).getTime() >= limitDate) {
+      Toast('后面没有了~');
+      return false
+    }
+
     this.setData({title: `${year}年${month+1}月`})
     this.setData({lastDay: {year: year, month: month+1}})
     console.log('right', this.data.lastDay)
+    // 从云数据库获取选择月日历数据
+    let that = this
+    getDateData(year, month, v).then(function(res){
+      let dateData = res || []
+      that.setData({dateData: dateData})
+      that.setData({minDate: new Date(year, month, 1).getTime(), maxDate: new Date(year, month+1, 0).getTime()})
+      that.setData({ydHeight: dateData.length > 4 ? '800rpx' : '100%'})
+    })
+
   },
   onClickLeft: function () {
+    let limitDate = new Date(2020, 8, 0).getTime()
     let year = this.data.lastDay.year
     let month = this.data.lastDay.month
-    this.setData({minDate: new Date(year, month-2, 1).getTime(), maxDate: new Date(year, month-1, 0).getTime()})
+    if(new Date(year, month-2, 1).getTime() <= limitDate) {
+      Toast('前面没有了~');
+      return false
+    }
+
     this.setData({title: `${year}年${month-1}月`})
     this.setData({lastDay: {year: year, month: month-1}})
     console.log('left', this.data.lastDay)
-    this.getDateData(year, month)
+    // 从云数据库获取选择月日历数据
+    let that = this
+    getDateData(year, month-2, v).then(function(res){
+      let dateData = res || []
+      that.setData({dateData: dateData})
+      that.setData({minDate: new Date(year, month-2, 1).getTime(), maxDate: new Date(year, month-1, 0).getTime()})
+      that.setData({ydHeight: dateData.length > 4 ? '800rpx' : '100%'})
+    })
   },
   selectDate: function (v) {
     let d = 'item'+v.detail.getDate()
     this.setData({toView: d})
-    console.log('vvv', d, v.detail.getDate(), v)
-    wx.pageScrollTo({
-      scrollTop: this.data.rdScrollTop,
-      duration: 300
-    });
+    // console.log('vvv', d, v.detail.getDate(), v, this.data.dateData)
+    this.data.dateData.map(val=>{
+      if(val.day === v.detail.getDate()){
+        wx.pageScrollTo({
+          scrollTop: this.data.rdScrollTop,
+          duration: 300
+        });
+      }
+    })
   },
   openData: function () {
-    console.log(1111)
     this.setData({aa: false})
   },
   tap: function(){
@@ -212,10 +231,16 @@ Page({
     let date = new Date()
     let year = date.getFullYear()
     let month = date.getMonth()
-    this.setData({minDate: new Date(year, month, 1).getTime(), maxDate: new Date(year, month+1, 0).getTime()})
+    // this.setData({minDate: new Date(year, month, 1).getTime(), maxDate: new Date(year, month+1, 0).getTime()})
     this.setData({title: `${year}年${month+1}月`})
     this.setData({lastDay: {year: year, month: month+1}})
     this.setData({defaultDate: new Date().getTime()})
+    // 从云数据库获取选择月日历数据
+    let that = this
+    getDateData(year, month, v).then(function(res){
+      that.setData({dateData: res || []})
+      that.setData({minDate: new Date(year, month, 1).getTime(), maxDate: new Date(year, month+1, 0).getTime()})
+    })
   },
   // 展开要点
   zkyd: function(){
@@ -238,38 +263,4 @@ Page({
   setTouchMove: function(e){
     console.log('setTouchMove', e)
   },
-
-  getDateData: function(year, month){
-    // 从云数据库获取选择月日历数据
-    let k = `${year}-${month+1}-${v}`
-    let data
-    try{
-      data = wx.getStorageSync(k)
-      console.log("data ssss", typeof data, data.length, data)
-      if(!data || typeof data === 'string'){
-        console.log("aaaaa")
-        throw "data为空"
-      }
-    }catch(err){
-      console.log("errpr", err)
-      const db = wx.cloud.database()
-      db.collection('calendar')
-        .where({year: year, month: month+1})
-        .field({day: true, news: true})
-        .orderBy('day', 'asc').skip(0).limit(100)
-        .get({
-          success: function(res) {
-            data = res.data
-            console.log("ssss1111", data)
-            wx.setStorage({
-              data: res.data,
-              key: k
-            }) 
-          }
-        })
-    }finally{
-      console.log("onloda llll", data)
-      this.setData({dateData: data, ydHeight: data.length > 4 ? '800px' : '100%'})
-    }
-  }
 })

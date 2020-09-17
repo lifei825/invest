@@ -8,11 +8,11 @@
     </block>
   </view>
   <view class="usermotto">
-    <text class="user-motto">{{motto}}</text>
+    <text class="user-motto">{{motto}}{{userInfo.nickName}}</text>
   </view>
-    <van-button type="primary">按钮</van-button>
-    <van-button round type="primary"  color='#CC0033' style="top: 100;left:200;position:fixed">今</van-button>
+    <van-button type="primary" bindtap="clearCache">欢迎</van-button>
+    <!-- <van-button round type="primary"  color='#CC0033' style="top: 100;left:200;position:fixed">今</van-button> -->
 </view>
 
-<van-button round type="primary"  color='#CC0033' style="top: 100;left:200;position:fixed">今</van-button>
+<!-- <van-button round type="primary"  color='#CC0033' style="top: 100;left:200;position:fixed">今</van-button> -->
 

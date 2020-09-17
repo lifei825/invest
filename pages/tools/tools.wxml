@@ -8,9 +8,6 @@
 </block> -->
 
 <van-grid column-num="3">
-  <van-grid-item icon="photo-o" text="复利收益" />
-  <van-grid-item icon="photo-o" text="股票成本" />
-  <van-grid-item icon="photo-o" text="股票手续费" />
-  <van-grid-item icon="photo-o" text="我的基金" />
-  <van-grid-item icon="photo-o" text="文字" />
+  <!-- <van-grid-item icon="photo-o" text="复利计算器" /> -->
+  <van-grid-item icon="photo-o" text="日记" />
 </van-grid>

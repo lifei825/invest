@@ -7,6 +7,21 @@ var subStr = function (val, start, stop) {
   }
 }
 
+var length = function (val) {
+  // console.log("wxs length", val)
+  if(val === undefined) {
+    return 0
+  }
+
+  if (val.constructor === "Array"){
+    return val.length
+  } else {
+    return 0
+  }
+
+}
+
 module.exports = {
-  subStr: subStr
+  subStr: subStr,
+  length: length
 }
