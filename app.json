@@ -21,6 +21,12 @@
       "pages": [
         "logs"
       ]
+    },
+    {
+      "root": "pages/component/",
+      "pages": [
+        "pages/note/note"
+      ]
     }
   ],
   "tabBar": {

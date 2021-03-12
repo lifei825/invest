@@ -8,7 +8,7 @@ let year = date.getFullYear()
 let month = date.getMonth()
 var minDate = new Date(year, month, 15).getTime()
 var maxDate = new Date(year, month+1, 0).getTime()
-var v = `${date.getDate}-${date.getHours}`
+var v = `${date.getDate()}-${date.getHours()}`
 
 // pages/calender/calender.js
 Page({
@@ -123,7 +123,9 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    console.log("on show", date)
+    let date = new Date()
+    v = `${date.getDate()}-${date.getHours()}`
+    console.log("on show", date, v)
   },
 
   /**
@@ -166,14 +168,18 @@ Page({
     let limitDate = new Date(2020, 12, 1).getTime()
     let year = this.data.lastDay.year
     let month = this.data.lastDay.month
-    if(new Date(year, month+1, 0).getTime() >= limitDate) {
-      Toast('后面没有了~');
-      return false
+    // if(new Date(year, month+1, 0).getTime() >= limitDate) {
+    //   Toast('后面没有了~');
+    //   return false
+    // }
+    if (month === 12) {
+      year += 1
+      month = 0
     }
 
     this.setData({title: `${year}年${month+1}月`})
     this.setData({lastDay: {year: year, month: month+1}})
-    console.log('right', this.data.lastDay)
+    console.log('right', this.data.lastDay, v, year, month)
     // 从云数据库获取选择月日历数据
     let that = this
     getDateData(year, month, v).then(function(res){
@@ -188,10 +194,17 @@ Page({
     let limitDate = new Date(2020, 8, 0).getTime()
     let year = this.data.lastDay.year
     let month = this.data.lastDay.month
-    if(new Date(year, month-2, 1).getTime() <= limitDate) {
-      Toast('前面没有了~');
-      return false
+    // let left = new Date(year, month, 0).getTime() - 3600 * 24 * 1000
+    // console.log('last get time', year, month)
+    if(month === 1) {
+      year -= 1
+      month = 13
     }
+
+    // if(new Date(year, month-2, 1).getTime() <= limitDate) {
+    //   Toast('前面没有了~');
+    //   return false
+    // }
 
     this.setData({title: `${year}年${month-1}月`})
     this.setData({lastDay: {year: year, month: month-1}})
@@ -262,5 +275,25 @@ Page({
   },
   setTouchMove: function(e){
     console.log('setTouchMove', e)
+  },
+  onSelect(event) {
+    Toast(event.detail.name);
+    // this.closeAdd();
+    wx.navigateTo({
+      url: '../component/pages/note/note?id=1',
+      events: {
+        // 为指定事件添加一个监听器，获取被打开页面传送到当前页面的数据
+        acceptDataFromOpenedPage: function(data) {
+          console.log('aaaaaa', data)
+        },
+        someEvent: function(data) {
+          console.log(data)
+        }
+      },
+      success: function(res) {
+        // 通过eventChannel向被打开页面传送数据
+        res.eventChannel.emit('acceptDataFromOpenerPage', { data: 'test' })
+      }
+    })
   },
 })

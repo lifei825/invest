@@ -17,12 +17,50 @@ App({
         env: 'test2-5hlbd', 
         traceUser: true,
       })
+
+      // 调用云函数
+				wx.cloud.callFunction({
+				  name: 'add',
+				  data: {"a": 123},
+				  success: res => {
+					// debugger
+          console.log('[云函数] [login] user openid: ', res.result.openid)
+          console.log('openid', res.result)
+				  },
+				  fail: err => {
+					console.error('[云函数] [login] 调用失败', err)
+				  }
+				})
     }
 
     // 登录
     wx.login({
       success: res => {
+        console.log('wx login res', res)
         // 发送 res.code 到后台换取 openId, sessionKey, unionId
+        if(res.code === 1){
+          console.log(res.code)
+          wx.request({
+            url: 'https://api.weixin.qq.com/sns/jscode2session',//微信服务器获取appid的网址 不用变
+            method:'post',//必须是post方法
+            data:{
+              js_code:res.code,
+              appid:'wxdadaddceweed',//仅为实例appid
+              secret:'edajdisajisdincaksaksokdoakadp',//仅为实例secret
+              grant_type:'authorization_code'
+            },
+            header: {
+              'content-type': 'application/x-www-form-urlencoded',
+            },
+            success:function(response){
+              console.log('get openid', response.data)
+              wx.setStorageSync('app_openid', response.data.openid); 将openid存入本地缓存
+              wx.setStorageSync('sessionKey', response.data.session_key)//将session_key 存入本地缓存命名为SessionKey
+            }
+          })
+        }else{
+          console.log("登陆失败");
+        }
       }
     })
     // 获取用户信息

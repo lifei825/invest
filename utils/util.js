@@ -18,6 +18,7 @@ const db = wx.cloud.database()
 
 
 const getDateData = function(year, month, v){
+  // promise同步获取日历信息
   var p = new Promise(function(resolve, reject){
     // 从云数据库获取选择月日历数据
     let k = `${year}-${month+1}-${v}`

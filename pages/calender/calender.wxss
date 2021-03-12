@@ -2,6 +2,7 @@
 .calendar { 
   /* --calendar-height: 500px; */
   color: #66CCFF;
+  margin: 0px;
 }
 
 
