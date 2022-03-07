@@ -1,7 +1,9 @@
 <!--pages/calender/calender.wxml-->
 <wxs src="../../utils/tools.wxs" module="tools" />
 
-<scroll-view style="background: #ececec;heigth: 1200px" scroll-y="true">
+<scroll-view style="background: #ececec;heigth: 1200px" scroll-y="true"
+    bindtouchstart="touchStart" bindtouchend="touchEnd"
+>
 
 <van-nav-bar
   bind:click-left="onClickLeft"
@@ -76,8 +78,9 @@
 </scroll-view>
 
 <!-- <van-button round type="primary" bindtap="tap"  color='#CC0033' style="top: 280rpx;position:fixed;z-index:9999">今</van-button> -->
-<movable-area class='suspension' style="bottom: {{xfBottom}}px">
-    <movable-view id="suspension" direction="all" x="{{x}}" y="{{y}}" animation="{{false}}" style="pointer-events: auto;">
+<movable-area class='suspension' style="top: 44px;bottom: {{xfBottom}}px;height: {{windowHeight}}px;width: {{windowWidth}}px">
+    <movable-view id="suspension" direction="all" x="{{x}}" y="{{y}}" animation="{{false}}" style="pointer-events: auto;width: 46px;height: 98px"
+    bindchange="moveSus">
         <van-button round type="primary" bindtap="openAdd" color='#990066'>＋</van-button>
         <view style="height:10px"></view>
         <van-button round type="primary" bindtap="tap" color='#CC0033'>今</van-button>

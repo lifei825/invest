@@ -35,12 +35,15 @@
 
 .suspension {
   pointer-events: none;
-  z-index: 100000;
+  /* z-index: 100000; */
   position:fixed;
+  margin: 0px;
   /* bottom: 126px; */
-  right: 80rpx;
-  height: 96%;
-  width: 96%;
+  /* right: 80rpx; */
+  /* height: 96%; */
+  /* width: 96%; */
+  /* background-color: #66CCFF; */
+  /* opacity:0.5; */
 }
 
 .day {

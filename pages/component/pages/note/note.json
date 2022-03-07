@@ -1,3 +1,11 @@
 {
-  "usingComponents": {}
+  "usingComponents": {
+    "van-field": "../../../../weapp/field/index",
+    "van-button": "../../../../weapp/button/index",
+    "van-tab": "../../../../weapp/tab/index",
+    "van-tabs": "../../../../weapp/tabs/index",
+    "van-sticky": "../../../../weapp/sticky/index",
+    "van-collapse": "../../../../weapp/collapse/index",
+    "van-collapse-item": "../../../../weapp/collapse-item/index"
+  }
 }

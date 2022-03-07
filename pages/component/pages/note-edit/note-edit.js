@@ -1,4 +1,4 @@
-// pages/component/pages/note/note.js
+// pages/component/pages/note-edit/note-edit.js
 Page({
 
   /**
@@ -7,21 +7,14 @@ Page({
   data: {
     sms: 123,
     readonly: false,
-    tabActive: 0,
-    activeNames: []
+    tabActive: 0
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.log('onload', options)
-    const eventChannel = this.getOpenerEventChannel()
-    eventChannel.emit('acceptDataFromOpenedPage', {data: 'from note'});
-    // 监听acceptDataFromOpenerPage事件，获取上一页面通过eventChannel传送到当前页面的数据
-    eventChannel.on('acceptDataFromOpenerPage', function(data) {
-      console.log('event on', data)
-    })
+
   },
 
   /**
@@ -73,9 +66,14 @@ Page({
 
   },
 
-  onChange(event) {
+  clickEdit () {
+    console.log(this.data.readonly)
+    var rd = !this.data.readonly
     this.setData({
-      activeNames: event.detail,
-    });
+      readonly: rd
+    })
   },
+  tabChange (event) {
+    console.log("tab change", event.detail.name, event)
+  }
 })

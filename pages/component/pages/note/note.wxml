@@ -1,2 +1,40 @@
 <!--pages/component/pages/note/note.wxml-->
-<text>pages/component/pages/note/note.wxml</text>
+<van-tabs active="{{tabActive }}" bind:change="tabChange" sticky>
+  <van-tab title="操盘计划" >
+    <view>
+      <van-sticky offset-top="{{44}}">
+        <van-button type="primary" style="float: right;" size="mini">编辑</van-button>
+      </van-sticky>
+    <van-cell-group>
+      <van-field value="{{ message }}" label="大盘预判" type="textarea"
+      placeholder="请输入留言" autosize maxlength="500"
+      show-word-limit="true"/>
+      <van-field value="{{ message }}" label="今日开盘" type="textarea"
+      placeholder="请输入留言" autosize maxlength="100"
+      show-word-limit="true"/>
+      <van-field value="{{ message }}" label="盘中记录" type="textarea"
+      placeholder="请输入留言" autosize maxlength="100"
+      show-word-limit="true"/>
+      <van-field value="{{ message }}" label="午盘总结" type="textarea"
+      placeholder="请输入留言" autosize maxlength="100"
+      show-word-limit="true"/>
+      <van-field value="{{ message }}" label="尾盘记录" type="textarea"
+      placeholder="请输入留言" autosize maxlength="100"
+      show-word-limit="true"/>
+     
+     <van-collapse value="{{ activeNames }}" bind:change="onChange">
+      <van-collapse-item title="操盘总结" name="1">
+        <van-field value="{{ message }}" label="" type="textarea"
+        placeholder="请输入留言" autosize maxlength="100"
+        show-word-limit="true" border="{{false}}"/>
+      </van-collapse-item>
+     </van-collapse>
+  
+  <!-- <van-button round type="info" block custom-style="margin: 0 auto;width: 80%;margin-top: 50px">保存</van-button> -->
+ 
+    </van-cell-group>
+    </view>
+    
+  </van-tab>
+  <van-tab title="心法"></van-tab>
+</van-tabs>

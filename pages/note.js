@@ -1,27 +1,18 @@
-// pages/component/pages/note/note.js
+// pages/note.js
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    sms: 123,
-    readonly: false,
-    tabActive: 0,
-    activeNames: []
+
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.log('onload', options)
-    const eventChannel = this.getOpenerEventChannel()
-    eventChannel.emit('acceptDataFromOpenedPage', {data: 'from note'});
-    // 监听acceptDataFromOpenerPage事件，获取上一页面通过eventChannel传送到当前页面的数据
-    eventChannel.on('acceptDataFromOpenerPage', function(data) {
-      console.log('event on', data)
-    })
+
   },
 
   /**
@@ -71,11 +62,5 @@ Page({
    */
   onShareAppMessage: function () {
 
-  },
-
-  onChange(event) {
-    this.setData({
-      activeNames: event.detail,
-    });
-  },
+  }
 })

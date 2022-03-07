@@ -2,7 +2,8 @@
   "pages": [
     "pages/calender/calender",
     "pages/index/index",
-    "pages/tools/tools"
+    "pages/tools/tools",
+    "pages/note"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -25,7 +26,8 @@
     {
       "root": "pages/component/",
       "pages": [
-        "pages/note/note"
+        "pages/note/note",
+        "pages/note-edit/note-edit"
       ]
     }
   ],
@@ -36,6 +38,12 @@
         "text": "日历",
         "iconPath": "image/calendar.png",
         "selectedIconPath": "image/calendar-select.png"
+      },
+      {
+        "pagePath": "pages/tools/tools",
+        "text": "日记",
+        "iconPath": "image/note-noselect.png",
+        "selectedIconPath": "image/note.png"
       },
       {
         "pagePath": "pages/tools/tools",

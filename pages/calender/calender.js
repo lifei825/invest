@@ -12,18 +12,22 @@ var v = `${date.getDate()}-${date.getHours()}`
 
 // pages/calender/calender.js
 Page({
-
+  
   /**
    * 页面的初始数据
    */
   data: {
+    touch: {x: 0, y: 0},
+    windowHeight: 0,
+    windowWidth: 0,
     dateData: [],
     xfBottom: 0,
-    optionAdd: [{ name: '分享好友', icon: 'wechat' }, 
-                { name: '日记', icon: '/image/note.png' },],
+    optionAdd: [
+      // { name: '分享好友', icon: 'wechat' }, 
+      { name: '日记', icon: '/image/note.png' },],
     showAdd: false,
     ydHeight: '800rpx',
-    x: 250,
+    x: 0,
     y: 0,
     rdScrollTop: 0,
     aa: true,
@@ -77,6 +81,10 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    wx.showShareMenu({
+      withShareTicket: true,
+      menus: ['shareAppMessage', 'shareTimeline']
+    })
     let date = new Date()
     let year = date.getFullYear()
     let month = date.getMonth()
@@ -84,13 +92,20 @@ Page({
     this.setData({title: `${year}年${month+1}月`})
     this.setData({lastDay: {year: year, month: month+1}})
 
+    // this.setData({
+    //   windowHeight: wx.getSystemInfoSync().windowHeight,
+    //   windowWidth: wx.getSystemInfoSync().windowWidth
+    // })
     wx.getSystemInfo({
       success: (res) => {
         console.log('system', res)
         this.setData({
-            x: res.screenWidth,
+            x: res.screenWidth * 0.85,
             y: res.screenHeight,
-            xfBottom: res.screenHeight - res.statusBarHeight - res.windowHeight
+            // xfBottom: res.screenHeight - res.statusBarHeight - res.windowHeight
+            xfBottom: 0,
+            windowHeight: res.windowHeight - res.statusBarHeight - 44,
+            windowWidth: res.windowWidth
         });
       }
     })
@@ -123,6 +138,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+    
     let date = new Date()
     v = `${date.getDate()}-${date.getHours()}`
     console.log("on show", date, v)
@@ -160,7 +176,7 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-
+    console.log('share!!!')
   },
 
   onClickRight: function () {
@@ -279,21 +295,52 @@ Page({
   onSelect(event) {
     Toast(event.detail.name);
     // this.closeAdd();
-    wx.navigateTo({
-      url: '../component/pages/note/note?id=1',
-      events: {
-        // 为指定事件添加一个监听器，获取被打开页面传送到当前页面的数据
-        acceptDataFromOpenedPage: function(data) {
-          console.log('aaaaaa', data)
+    // wx.switchTab({
+      // url: '../tools/tools',
+    // })
+    setTimeout(function(){
+      wx.navigateTo({
+        url: '../component/pages/note/note?id=1',
+        events: {
+          // 为指定事件添加一个监听器，获取被打开页面传送到当前页面的数据
+          acceptDataFromOpenedPage: function(data) {
+            console.log('aaaaaa', data)
+          },
+          someEvent: function(data) {
+            console.log('some', data)
+          }
         },
-        someEvent: function(data) {
-          console.log(data)
+        success: function(res) {
+          // 通过eventChannel向被打开页面传送数据
+          res.eventChannel.emit('acceptDataFromOpenerPage', { data: 'test' })
         }
-      },
-      success: function(res) {
-        // 通过eventChannel向被打开页面传送数据
-        res.eventChannel.emit('acceptDataFromOpenerPage', { data: 'test' })
-      }
+      })
+    }, 100)
+    
+  },
+  moveSus(e) {
+    console.log("move sus", e)
+  },
+  touchStart: function(e) {
+    this.setData({
+      "touch.x": e.changedTouches[0].clientX,
+      "touch.y": e.changedTouches[0].clientY,
     })
+    console.log("touch start", e, this.data.touch)
+
+  },
+  touchEnd: function(e) {
+    console.log("touch end", e)
+    let x = e.changedTouches[0].clientX
+    let y = e.changedTouches[0].clientY
+    let startX = this.data.touch.x
+    let startY = this.data.touch.y
+    if (startX - x < -50 && Math.abs(startY - y) < 50) {
+      console.log("left")
+      this.onClickLeft()
+    } else if (startX - x > 50 && Math.abs(startY -y) < 50) {
+      console.log("right")
+      this.onClickRight()
+    }
   },
 })
