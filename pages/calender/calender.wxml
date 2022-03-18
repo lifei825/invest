@@ -1,14 +1,14 @@
 <!--pages/calender/calender.wxml-->
 <wxs src="../../utils/tools.wxs" module="tools" />
 
-<scroll-view style="background: #ececec;heigth: 1200px" scroll-y="true"
+<scroll-view style="height: 100%;" scroll-y="true"
     bindtouchstart="touchStart" bindtouchend="touchEnd"
 >
 
 <van-nav-bar
   bind:click-left="onClickLeft"
   bind:click-right="onClickRight"
-  custom-style="padding-top: 0"
+  custom-style="padding-top: 0;background: -webkit-linear-gradient(top, #3282d3,#66CCFF, white)"
   safe-area-inset-top="{{false}}"
   fixed="{{true}}"
   placeholder="{{true}}"
@@ -34,6 +34,7 @@
   bind:select='selectDate'
   color="#6699cc"
 >
+  <!-- color="#6098d2" -->
 </van-calendar>
 
 <view id="rd" class="page__bd" style="border:0rpx solid #fff;border-radius:25rpx;margin: 15rpx">

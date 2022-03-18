@@ -5,10 +5,22 @@ Page({
    * 页面的初始数据
    */
   data: {
+    date: "2022-03-12",
+    editStatus: true,
     sms: 123,
     readonly: false,
-    tabActive: 0,
+    active: 0,
+    steps: [],
+    cp: [
+      {name: '大盘预判', msg: 'ddadad'},
+      {name: '今日开盘', msg: 'ddadad'},
+      {name: '盘中记录', msg: 'ddadad'},
+      {name: '午盘总结', msg: 'ddadad'},
+      {name: '尾盘记录', msg: 'ddadaddadadadakdjabdakl'},
+      {name: '操盘总结', msg: ''},
+    ],
     activeNames: []
+    
   },
 
   /**
@@ -22,6 +34,24 @@ Page({
     eventChannel.on('acceptDataFromOpenerPage', function(data) {
       console.log('event on', data)
     })
+    let steps = []
+    for(let x=0;x<20;x++){
+      steps.push({text: x, desc: 'aaa'})
+    }
+    this.setData({steps: steps})
+
+    // 查看操盘状态msg是否为0， 为0则不打开折叠面板
+    let actives = []
+    let n = 0
+    this.data.cp.map(rs=>{
+      if (rs.msg.length>0){
+        actives.push(n)
+      }
+      n+=1
+    })
+    this.setData({activeNames: actives})
+    console.log(this.data.activeNames)
+
   },
 
   /**
@@ -74,8 +104,20 @@ Page({
   },
 
   onChange(event) {
+    console.log("on change", event)
     this.setData({
       activeNames: event.detail,
     });
   },
+  clickStep(s) {
+    console.log('click step', s)
+
+
+  },
+  onClickRight() {
+    let e = this.data.editStatus ? false : true
+    this.setData({
+      editStatus: e
+    })
+  }
 })

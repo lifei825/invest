@@ -6,6 +6,12 @@
     "van-tabs": "../../../../weapp/tabs/index",
     "van-sticky": "../../../../weapp/sticky/index",
     "van-collapse": "../../../../weapp/collapse/index",
-    "van-collapse-item": "../../../../weapp/collapse-item/index"
+    "van-collapse-item": "../../../../weapp/collapse-item/index",
+    "van-steps": "/weapp/steps/index",
+    "van-divider": "/weapp/divider/index",
+    "van-cell": "/weapp/cell/index",
+    "van-cell-group": "/weapp/cell-group/index",
+    "van-popup": "/weapp/popup/index",
+    "van-nav-bar": "/weapp/nav-bar/index"
   }
 }

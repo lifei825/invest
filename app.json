@@ -7,9 +7,10 @@
   ],
   "window": {
     "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#f8f8f8",
+    "navigationBarBackgroundColor": "#3282d6",
     "navigationBarTitleText": "飞飞投资日历",
-    "navigationBarTextStyle": "black"
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#eeeeee"
   },
   "sitemapLocation": "sitemap.json",
   "usingComponents": {
@@ -38,12 +39,6 @@
         "text": "日历",
         "iconPath": "image/calendar.png",
         "selectedIconPath": "image/calendar-select.png"
-      },
-      {
-        "pagePath": "pages/tools/tools",
-        "text": "日记",
-        "iconPath": "image/note-noselect.png",
-        "selectedIconPath": "image/note.png"
       },
       {
         "pagePath": "pages/tools/tools",

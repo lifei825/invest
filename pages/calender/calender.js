@@ -38,6 +38,7 @@ Page({
     title: "2010年1月",
     today: 1,
     lastDay: {year: 2020, month: 1},
+    selectDay: '1997-11-11',
     formatter(day) {
       let now = new Date();
       let today = now.getDate();
@@ -88,9 +89,10 @@ Page({
     let date = new Date()
     let year = date.getFullYear()
     let month = date.getMonth()
+    let day = date.getDate()
     
     this.setData({title: `${year}年${month+1}月`})
-    this.setData({lastDay: {year: year, month: month+1}})
+    this.setData({lastDay: {year: year, month: month+1}, selectDay: `${year}-${month+1}-${day}`})
 
     // this.setData({
     //   windowHeight: wx.getSystemInfoSync().windowHeight,
@@ -236,8 +238,9 @@ Page({
   },
   selectDate: function (v) {
     let d = 'item'+v.detail.getDate()
-    this.setData({toView: d})
-    // console.log('vvv', d, v.detail.getDate(), v, this.data.dateData)
+    this.setData({toView: d, selectDay: `${v.detail.getFullYear()}-${v.detail.getMonth()+1}-${v.detail.getDate()}`})
+    console.log('vvv', d, v.detail.getDate(), v, this.data.dateData, v.detail.getFullYear(), 
+    v.detail.getMonth(), v.detail.getDate(), this.data.selectDay)
     this.data.dateData.map(val=>{
       if(val.day === v.detail.getDate()){
         wx.pageScrollTo({
@@ -298,9 +301,12 @@ Page({
     // wx.switchTab({
       // url: '../tools/tools',
     // })
+    let that = this
     setTimeout(function(){
+      console.log("to", that.data.selectDay)
       wx.navigateTo({
-        url: '../component/pages/note/note?id=1',
+        url: `../component/pages/note/note?id=1&date=${that.data.selectDay}`,
+        // url: `../component/pages/note/note?id=1`,
         events: {
           // 为指定事件添加一个监听器，获取被打开页面传送到当前页面的数据
           acceptDataFromOpenedPage: function(data) {

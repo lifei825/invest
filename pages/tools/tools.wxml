@@ -7,7 +7,8 @@
   </navigator>
 </block> -->
 
-<van-grid column-num="3">
+<van-grid column-num="2" custom-class="grid" clickable gutter="{{20}}" border="{{false}}">
   <!-- <van-grid-item icon="photo-o" text="复利计算器" /> -->
-  <van-grid-item icon="/image/note.png" text="日记" />
+  <van-grid-item icon="/image/note.png" text="日记" custom-class="grid-item"/>
+  <van-grid-item icon="/image/note.png" text="日记" custom-class="grid-item"/>
 </van-grid>
