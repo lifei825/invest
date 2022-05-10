@@ -31,6 +31,20 @@ App({
 					console.error('[云函数] [login] 调用失败', err)
 				  }
 				})
+				wx.cloud.callFunction({
+				  name: 'getOpenid',
+				  data: {"a": 123},
+				  success: res => {
+					// debugger
+          console.log('[云函数] [login] get open id: ', res.result.openid)
+          console.log('openid', res.result)
+          // 将openid存入本地缓存
+          wx.setStorageSync('openid', res.result.openid)
+				  },
+				  fail: err => {
+					console.error('[云函数] [login] 调用失败', err)
+				  }
+				})
     }
 
     // 登录
@@ -38,6 +52,8 @@ App({
       success: res => {
         console.log('wx login res', res)
         // 发送 res.code 到后台换取 openId, sessionKey, unionId
+        // 已弃用。出于安全考虑，api.weixin.qq.com 不能被配置为服务器域名，相关API也不能在小程序内调用。
+        // if(res.code){
         if(res.code === 1){
           console.log(res.code)
           wx.request({

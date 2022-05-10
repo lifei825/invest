@@ -60,8 +60,6 @@ const getDateData = function(year, month, v){
   return p
 }
 
-
-
 module.exports = {
   formatTime: formatTime,
   getDateData: getDateData,

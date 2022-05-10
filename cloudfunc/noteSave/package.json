@@ -1,15 +1,14 @@
 {
-  "name": "miniprogram-2",
+  "name": "noteSave",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "weui-miniprogram": "^1.0.4",
-    "wx-server-sdk": "^2.6.1"
+    "wx-server-sdk": "~2.6.1"
   }
 }

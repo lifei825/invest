@@ -7,8 +7,20 @@
   </navigator>
 </block> -->
 
-<van-grid column-num="2" custom-class="grid" clickable gutter="{{20}}" border="{{false}}">
-  <!-- <van-grid-item icon="photo-o" text="复利计算器" /> -->
+<!-- <van-grid column-num="2" custom-class="grid" clickable gutter="{{20}}" border="{{false}}">
+  <van-grid-item icon="photo-o" text="复利计算器" />
   <van-grid-item icon="/image/note.png" text="日记" custom-class="grid-item"/>
   <van-grid-item icon="/image/note.png" text="日记" custom-class="grid-item"/>
-</van-grid>
+</van-grid> -->
+<view class="flex-wrp" style="flex-direction:row;" >
+          <view class="flex-item demo-text-1" style="text-align: center" hover-class="click" bindtap="click" id='note'>
+          <view class="column">
+            <view class="flex-wrp" style="flex-direction:column;">
+              <van-icon name="/image/note.png" size="30px"/>
+              <text style="font-size: 28rpx">日记</text>
+            </view>
+          </view>
+          </view>
+          <view class="flex-item demo-text-1"></view>
+          <view class="flex-item demo-text-1"></view>
+</view>

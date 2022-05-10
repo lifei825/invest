@@ -6,17 +6,17 @@ Page({
    */
   data: {
     date: "2022-03-12",
-    editStatus: true,
+    editStatus: false,
     sms: 123,
-    readonly: false,
+    // readonly: true,
     active: 0,
     steps: [],
     cp: [
-      {name: '大盘预判', msg: 'ddadad'},
-      {name: '今日开盘', msg: 'ddadad'},
-      {name: '盘中记录', msg: 'ddadad'},
-      {name: '午盘总结', msg: 'ddadad'},
-      {name: '尾盘记录', msg: 'ddadaddadadadakdjabdakl'},
+      {name: '大盘预判', msg: ''},
+      {name: '今日开盘', msg: ''},
+      {name: '盘中记录', msg: ''},
+      {name: '午盘总结', msg: ''},
+      {name: '尾盘记录', msg: ''},
       {name: '操盘总结', msg: ''},
     ],
     activeNames: []
@@ -38,20 +38,34 @@ Page({
     for(let x=0;x<20;x++){
       steps.push({text: x, desc: 'aaa'})
     }
-    this.setData({steps: steps})
-
-    // 查看操盘状态msg是否为0， 为0则不打开折叠面板
-    let actives = []
-    let n = 0
-    this.data.cp.map(rs=>{
-      if (rs.msg.length>0){
-        actives.push(n)
+    this.setData({steps: steps, date: options.date})
+    // 根据date获取操盘信息
+    wx.cloud.callFunction({
+      name: 'noteSearch',
+      data: { date: options.date },
+      complete: res => {
+        let rs = res.result.data
+        console.log("res search:", res.result.data);
+        let cp = this.data.cp
+        let n = 0
+        // 查看操盘状态msg是否为0， 为0则不打开折叠面板
+        let actives = []
+        if(Object.keys(rs).length>0) {
+          cp.map(v=>{
+            v.msg = rs.doc[n.toString()]
+            if (v.msg.length>0){
+              actives.push(n)
+            }
+            n += 1
+          })
+        }
+        console.log("cp:", cp)
+        this.setData({cp: cp, activeNames: actives})
+      },
+      fail: err => {
+        console.error('[云函数] [login] 调用失败', err);
       }
-      n+=1
     })
-    this.setData({activeNames: actives})
-    console.log(this.data.activeNames)
-
   },
 
   /**
@@ -114,10 +128,41 @@ Page({
 
 
   },
-  onClickRight() {
-    let e = this.data.editStatus ? false : true
-    this.setData({
-      editStatus: e
+  submit(e) {
+    console.log('submit', e, e.detail.value)
+    let state = this.data.editStatus
+    if (state) {
+      wx.showLoading({
+        title: '加载中',
+        mask: true
+      })
+      
+      this.noteSaveYun(e.detail.value)
+    } else {
+        this.setData({
+          editStatus: true
+        })
+    }
+  },
+  noteSaveYun(doc) {
+    wx.cloud.callFunction({
+      name: 'noteSave',
+      data: { "doc": doc, "date": this.data.date },
+      complete: res => {
+        console.log("res:", res.result);
+        // 改变按钮状态
+        let s = this.data.editStatus ? false : true
+        this.setData({
+          editStatus: s
+        })
+        setTimeout(()=>{
+          wx.hideLoading()
+        }, 0)
+      },
+      fail: err => {
+        console.error('[云函数] [login] 调用失败', err);
+      }
     })
   }
+
 })

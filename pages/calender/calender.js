@@ -253,6 +253,7 @@ Page({
   openData: function () {
     this.setData({aa: false})
   },
+  // 点击今按钮回到日历当天
   tap: function(){
     console.log(this.data.rdScrollTop)
     wx.pageScrollTo({
@@ -263,7 +264,8 @@ Page({
     let date = new Date()
     let year = date.getFullYear()
     let month = date.getMonth()
-    // this.setData({minDate: new Date(year, month, 1).getTime(), maxDate: new Date(year, month+1, 0).getTime()})
+    let day = date.getDate()
+    this.setData({selectDay: `${year}-${month+1}-${day}`})
     this.setData({title: `${year}年${month+1}月`})
     this.setData({lastDay: {year: year, month: month+1}})
     this.setData({defaultDate: new Date().getTime()})
@@ -296,32 +298,41 @@ Page({
     console.log('setTouchMove', e)
   },
   onSelect(event) {
-    Toast(event.detail.name);
-    // this.closeAdd();
-    // wx.switchTab({
-      // url: '../tools/tools',
-    // })
-    let that = this
-    setTimeout(function(){
-      console.log("to", that.data.selectDay)
-      wx.navigateTo({
-        url: `../component/pages/note/note?id=1&date=${that.data.selectDay}`,
-        // url: `../component/pages/note/note?id=1`,
-        events: {
-          // 为指定事件添加一个监听器，获取被打开页面传送到当前页面的数据
-          acceptDataFromOpenedPage: function(data) {
-            console.log('aaaaaa', data)
-          },
-          someEvent: function(data) {
-            console.log('some', data)
-          }
-        },
-        success: function(res) {
-          // 通过eventChannel向被打开页面传送数据
-          res.eventChannel.emit('acceptDataFromOpenerPage', { data: 'test' })
-        }
+    let d = new Date(this.data.selectDay)
+    let week = d.getDay()
+    console.log("week", week)
+    // 节假日不显示操盘页面
+    if([0, 6].indexOf(week)>=0){
+      wx.showToast({
+        title: '节假日休息！',
+        icon: 'error',
+        duration: 2000
       })
-    }, 100)
+      
+    } else {
+      Toast(event.detail.name);
+      let that = this
+      setTimeout(function(){
+        console.log("to", that.data.selectDay)
+        wx.navigateTo({
+          url: `../component/pages/note/note?id=1&date=${that.data.selectDay}`,
+          events: {
+            // 为指定事件添加一个监听器，获取被打开页面传送到当前页面的数据
+            acceptDataFromOpenedPage: function(data) {
+              console.log('aaaaaa', data)
+            },
+            someEvent: function(data) {
+              console.log('some', data)
+            }
+          },
+          success: function(res) {
+            // 通过eventChannel向被打开页面传送数据
+            res.eventChannel.emit('acceptDataFromOpenerPage', { data: 'test' })
+          }
+        })
+      }, 100)
+
+    }
     
   },
   moveSus(e) {

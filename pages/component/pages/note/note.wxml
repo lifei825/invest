@@ -1,12 +1,15 @@
 <!--pages/component/pages/note/note.wxml-->
     <view style="height: 100%;">
-      <!-- <van-sticky offset-top="{{0}}">
-        <van-button type="primary" style="float: right;" size="mini">编辑</van-button>
-      </van-sticky> -->
-      <van-nav-bar title="{{date}}" right-text="{{editStatus ? '保存' : '编辑' }}" custom-style="padding-top: 0px;background: -webkit-linear-gradient(top, #3282d3,#66CCFF, white)"
-      bind:click-right="onClickRight"></van-nav-bar> 
+      <form bindsubmit="submit">
+      <van-sticky offset-top="{{0}}">
+        <!-- <van-button type="primary" style="float: right;" size="mini">编辑</van-button> -->
+      <van-nav-bar title="{{date}}" custom-style="padding-top: 0px;background: -webkit-linear-gradient(top, #3282d3,#66CCFF, white)">
+        <van-button color="{{editStatus ? '#3282d3' : '#328289' }}" size="small" form-type="submit" slot="right">
+          {{editStatus ? '保存' : '编辑' }}
+        </van-button>
+      </van-nav-bar> 
+      </van-sticky>
       
-      <!-- bind:click-right="onClickRight"/> -->
       <view style="padding-top: 0px;">
         <van-divider contentPosition="center" dashed hairline
           customStyle="color: #1989fa; border-color: #1989fa; font-size: 18px;">
@@ -15,7 +18,7 @@
     <van-cell-group inset>
          <van-collapse value="{{ activeNames }}" bind:change="onChange">
           <van-collapse-item wx:for="{{cp}}" wx:key="index" title2="{{item.name}}" name="{{index}}">
-            <van-field value="{{ item.msg }}" label="" type="textarea"
+            <van-field value="{{ item.msg }}" label="" type="textarea" name="{{index}}"
             placeholder="请输入留言" autosize maxlength="100" readonly="{{!editStatus}}"
             show-word-limit="true" border="{{false}}"/>
             <view  wx:if="{{index == 0}}" slot="value" class="slot-value" style="color: {{2>1 ? 'crimson' : 'rgb(53 189 75)'}};">昨收SZ.3322, 100, 2.04%</view>
@@ -33,17 +36,18 @@
     customStyle="color: #1989fa; border-color: #1989fa; font-size: 18px;">
     悟</van-divider>
     <van-cell-group inset>
-      <van-cell title="感悟记录" value="内容" label="描述信息" />
+      <van-cell title="感悟记录" value="内容" label="待开放" />
     </van-cell-group>
     <van-divider contentPosition="right" dashed hairline
     customStyle="color: #1989fa; border-color: #1989fa; font-size: 18px;">
     道</van-divider>
     <van-cell-group inset>
-      <van-cell title="追踪验证" value="内容" label="描述信息" />
+      <van-cell title="追踪验证" value="内容" label="待开放" />
     </van-cell-group>
     <van-divider contentPosition="center" dashed hairline
     customStyle="color: #1989fa; border-color: #1989fa; font-size: 18px;">
     END</van-divider>
 
+       </form>
     </view>
     
