@@ -2,8 +2,7 @@
   "pages": [
     "pages/calender/calender",
     "pages/index/index",
-    "pages/tools/tools",
-    "pages/note"
+    "pages/tools/tools"
   ],
   "window": {
     "backgroundTextStyle": "light",

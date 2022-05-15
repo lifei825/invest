@@ -18,8 +18,9 @@ page {
 }
 
 .slot-title {
-  font-size: 16px;
+  font-size: 14px;
   color: #3282d6;
   font-weight: bold;
-  font-family: STKaiti;
+  /* font-family: STKaiti; */
+  font-family: serif;
 }

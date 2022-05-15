@@ -19,7 +19,19 @@ Page({
       {name: '尾盘记录', msg: ''},
       {name: '操盘总结', msg: ''},
     ],
-    activeNames: []
+    activeNames: [],
+    market: {
+      amount: '-',
+      chg: 0,
+      current: '-',
+      date: '',
+      last_close: '-',
+      open: '-',
+      percent: '-',
+      status: '',
+    },
+    color: 'blank',
+    setInter: ''
     
   },
 
@@ -66,6 +78,39 @@ Page({
         console.error('[云函数] [login] 调用失败', err);
       }
     })
+    this.getMakretCloud(options.date)
+    // 定时更新行情
+    let that = this
+    let interval = setInterval(() => {
+      // 判断时间范围查询数据库
+      that.getMakretCloud(options.date)
+    }, 15000);
+    this.setData({setInter: interval})
+  },
+
+  getMakretCloud(date) {
+    // 根据date获取行情信息
+    wx.cloud.callFunction({
+      // 云函数名称
+      name: 'getMarket',
+      // 传给云函数的参数
+      data: {
+        date: date,
+      },
+    })
+    .then(res => {
+      let d = res.result.rs.data
+      if (d.length>0) {
+        let sh = d[0].sh
+        let sz = d[0].sz
+        let amount = (sh.amount + sz.amount)/ 10000 / 10000
+        sh.amount = amount.toFixed(2)
+        let color = sh.chg === 0 ? 'black' : sh.chg > 0 ? 'crimson' : 'rgb(53 189 75)'
+        this.setData({market: sh, color: color})
+        console.log("get market", d, sh)
+      }
+    })    
+    .catch(console.error)
   },
 
   /**
@@ -86,14 +131,16 @@ Page({
    * 生命周期函数--监听页面隐藏
    */
   onHide: function () {
-
+    let that = this
+    clearInterval(that.data.setInter)
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-
+    let that = this
+    clearInterval(that.data.setInter)
   },
 
   /**

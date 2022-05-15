@@ -119,7 +119,8 @@ Page({
       that.setData({minDate: new Date(year, month, 1).getTime(), maxDate: new Date(year, month+1, 0).getTime()})
       that.setData({ydHeight: dateData.length > 4 ? '800rpx' : '100%'})
     })
-    
+    this.setData({defaultDate: `${year}-${month+1}-${day}`})
+    console.log("debug:", this.data.defaultDate, this.data.selectDay)
   },
 
   /**

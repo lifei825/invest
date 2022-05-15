@@ -21,10 +21,10 @@
             <van-field value="{{ item.msg }}" label="" type="textarea" name="{{index}}"
             placeholder="请输入留言" autosize maxlength="100" readonly="{{!editStatus}}"
             show-word-limit="true" border="{{false}}"/>
-            <view  wx:if="{{index == 0}}" slot="value" class="slot-value" style="color: {{2>1 ? 'crimson' : 'rgb(53 189 75)'}};">昨收SZ.3322, 100, 2.04%</view>
-            <view  wx:elif="{{index == 1}}" slot="value" class="slot-value" style="color:rgb(53 189 75);">今开SZ.3322</view>
-            <view  wx:elif="{{index == 3}}" slot="value" class="slot-value" style="color:rgb(53 189 75);">收盘SZ.3322</view>
-            <view  wx:elif="{{index == 4}}" slot="value" class="slot-value" style="color:rgb(53 189 75);">沪深成交额: 13422亿</view>
+            <view  wx:if="{{index == 0}}" slot="value" class="slot-value" style="color: blank;">昨收SZ.{{market.last_close}}</view>
+            <view  wx:elif="{{index == 1}}" slot="value" class="slot-value" style="color:{{color}};">今开SZ.{{market.open}}</view>
+            <view  wx:elif="{{index == 3}}" slot="value" class="slot-value" style="color:{{color}};">收{{market.current}}, {{market.chg}}, {{market.percent}}%</view>
+            <view  wx:elif="{{index == 4}}" slot="value" class="slot-value" style="color:{{color}};">沪深成交额: {{market.amount}}亿</view>
             <view slot="title" class="slot-title">{{item.name}}</view>
           </van-collapse-item>
          </van-collapse>
