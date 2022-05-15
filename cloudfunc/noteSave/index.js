@@ -23,7 +23,8 @@ exports.main = async (event, context) => {
   console.log("is data", isData)
   if(isData.data.length > 0){
     rs = await db.collection('note').where({
-      date: event.date
+      date: event.date,
+      openid: wxContext.OPENID,
     }).update({
       data: {
         doc: event.doc
