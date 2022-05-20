@@ -10,7 +10,9 @@
   <view class="usermotto">
     <text class="user-motto">{{motto}}{{userInfo.nickName}}</text>
   </view>
-    <van-button type="primary" bindtap="clearCache">欢迎</van-button>
+    <van-button type="primary" bindtap="getUserInfo" size="small">欢迎</van-button>
+    <van-button type="primary" bindtap="clearCache" size="small" style="margin-top: 5px;">清理缓存</van-button>
+    <text style="color: blank;">v2.02</text>
     <!-- <van-button round type="primary"  color='#CC0033' style="top: 100;left:200;position:fixed">今</van-button> -->
 </view>
 
